@@ -1,6 +1,6 @@
 const axios = require('axios');
 
-export function requestConfig(route = '', method = 'get') {
+function requestConfig(route = '', method = 'get') {
     return {
         method: method,
         maxBodyLength: Infinity,
@@ -12,7 +12,7 @@ export function requestConfig(route = '', method = 'get') {
     };
 }
 
-export async function request(config = {}, callback) {
+async function request(config = {}, callback) {
     await axios(config)
     .then((response) => {
         callback(response);
@@ -21,3 +21,5 @@ export async function request(config = {}, callback) {
         console.log(error);
     });
 }
+
+module.exports = {request, requestConfig};

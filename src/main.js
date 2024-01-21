@@ -1,3 +1,4 @@
+const {request, requestConfig} = require('./utils/helpers');
 const fs = require('fs');
 
 function main() {
