@@ -1,0 +1,19 @@
+{
+  "name": "coin-collect-data",
+  "version": "1.0.0",
+  "description": "Get coin data",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LuanB-compt/coin-collect-data.git"
+  },
+  "author": "Luan Bruno Domingues de Oliveira",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/LuanB-compt/coin-collect-data/issues"
+  },
+  "homepage": "https://github.com/LuanB-compt/coin-collect-data#readme"
+}
