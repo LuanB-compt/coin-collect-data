@@ -14,8 +14,8 @@ function requestConfig(route = '', method = 'get') {
     };
 }
 
-function request(config = {}, callback) {
-    axios(config)
+async function request(config = {}, callback) {
+    await axios(config)
     .then((response) => {
         callback(response);
     })
