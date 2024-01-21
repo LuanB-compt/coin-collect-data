@@ -31,7 +31,7 @@ function main() {
         requestConfig('exchanges'),
         function (response){
             fs.writeFile(
-                'Exchanges.json',
+                './out/Exchanges.json',
                 JSON.stringify(response.data),
                 'utf8',
                 function(err) {
