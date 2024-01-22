@@ -1,10 +1,10 @@
 const { CoinTableModel } = require("../models/CoinTable")
 const { sequelize } = require("../database/SQLite");
 const axios = require('axios');
-const { Model } = require('sequelize')
 
 
-export class Controller {
+
+class Controller {
     _url = 'https://rest.coinapi.io/v1';
     _keyAPI = 'D23A0AE8-C582-485F-BB2B-CBAD4710FE27';
 
@@ -56,3 +56,5 @@ export class Controller {
         });
     }
 }
+
+module.exports = { Controller };

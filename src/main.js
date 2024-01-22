@@ -1,13 +1,10 @@
-const {request, requestConfig} = require('./utils/helpers');
-const fs = require('fs');
+const { Controller } = require("./controller/Controller");
 
-function main() {
-    request(
-        requestConfig('exchanges'),
-        
-    );
+function main(controller) {
+    controller.request(controller.createCallback);
 }
 
 if (require.main === module) {
-    main();
+    const controller = new Controller();
+    main(controller);
 }
