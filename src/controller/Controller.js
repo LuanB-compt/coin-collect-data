@@ -1,7 +1,7 @@
 const { CoinTableModel } = require("../models/CoinTable")
 const { sequelize } = require("../database/SQLite");
 const axios = require('axios');
-const { Model } = require('sequelize')
+
 
 
 export class Controller {
