@@ -1,6 +1,4 @@
 const axios = require('axios');
-const fs = require('fs');
-
 
 function requestConfig(route = '', method = 'get') {
     return {
@@ -24,25 +22,4 @@ async function request(config = {}, callback) {
     });
 }
 
-
-
-function main() {
-    request(
-        requestConfig('exchanges'),
-        function (response){
-            fs.writeFile(
-                'Exchanges.json',
-                JSON.stringify(response.data),
-                'utf8',
-                function(err) {
-                    if (err) throw err;
-                    console.log('complete');
-                }
-            );
-        }
-    );
-}
-
-if (require.main === module) {
-    main();
-}
+module.exports = {request, requestConfig};
