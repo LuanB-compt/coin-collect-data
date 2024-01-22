@@ -4,7 +4,7 @@ const axios = require('axios');
 
 
 
-export class Controller {
+class Controller {
     _url = 'https://rest.coinapi.io/v1';
     _keyAPI = 'D23A0AE8-C582-485F-BB2B-CBAD4710FE27';
 
@@ -56,3 +56,5 @@ export class Controller {
         });
     }
 }
+
+module.exports = { Controller };
