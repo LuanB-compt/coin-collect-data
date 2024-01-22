@@ -1,16 +1,20 @@
 const { CoinTableModel } = require("../models/CoinTable")
 const { sequelize } = require("../database/SQLite");
 const axios = require('axios');
+const { Model } = require('sequelize')
 
 
 class Controller {
     _url = 'https://rest.coinapi.io/v1';
-    _keyAPI = 'D23A0AE8-C582-485F-BB2B-CBAD4710FE27'
+    _keyAPI = 'D23A0AE8-C582-485F-BB2B-CBAD4710FE27';
 
-    constructor () {
+    constructor (coin = "SOL_BRL", exchange = "BINANCE", period = "15MIN") {
         sequelize.sync();
+        this.coin = coin;
+        this.exchange = exchange;
+        this.period = period;
     }
-    
+
     _requestConfig(route = '', method = 'get') {
         return {
             method: method,
@@ -22,11 +26,12 @@ class Controller {
             }
         };
     }
-    
+
     async request(callback) {
-        await axios(this._requestConfig(''))
-        .then((response) => {
-            callback(response);
+        const route = `ohlcv/${this.exchange}_SPOT_${this.coin}/history?period_id=${this.period}&time_start=2023-01-01T00:00:00`;
+        await axios(this._requestConfig(route))
+        .then(async (response) => {
+            await callback(response);
         })
         .catch((error) => {
             console.log(error);
