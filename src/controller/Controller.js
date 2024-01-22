@@ -37,4 +37,22 @@ class Controller {
             console.log(error);
         });
     }
+
+    async createCallback(response) {
+        const data = response.data;
+        data.forEach(async period => {
+            let row = await CoinTableModel.create({
+                Coin: "SOLBRL",
+                DateStart: period.time_period_start,
+                DateEnd: period.time_period_end,
+                Open: period.price_open,
+                High: period.price_high,
+                Low: period.price_low,
+                Close: period.price_close,
+                Volume: period.volume_traded
+            })
+            row.save()
+            console.log("Created " + row.id + " ID");
+        });
+    }
 }
