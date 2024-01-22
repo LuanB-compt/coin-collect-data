@@ -5,6 +5,24 @@ const { sequelize } = require('../database/SQLite');
 class CoinTableModel extends Model {}
 
 CoinTableModel.init({
+    Coin: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        autoIncrement: false,
+        unique: false
+    },
+    DateStart: {
+        type: DataTypes.DATE,
+        allowNull: false,
+        autoIncrement: false,
+        unique: false
+    },
+    DateEnd: {
+        type: DataTypes.DATE,
+        allowNull: false,
+        autoIncrement: false,
+        unique: false
+    },
     Open: {
         type: DataTypes.DOUBLE,
         allowNull: false,
@@ -24,6 +42,12 @@ CoinTableModel.init({
         unique: false
     },
     Close: {
+        type: DataTypes.DOUBLE,
+        allowNull: false,
+        autoIncrement: false,
+        unique: false
+    },
+    Volume: {
         type: DataTypes.DOUBLE,
         allowNull: false,
         autoIncrement: false,
