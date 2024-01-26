@@ -8,3 +8,10 @@ function saveOutput(response, path = ''){
         }
     );
 }
+
+function processerDateString(date = '') {
+    date = date.slice(0, -6);
+    return date;
+}
+
+module.exports = { processerDateString };
