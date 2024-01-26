@@ -20,15 +20,15 @@ class Controller {
             method: method,
             maxBodyLength: Infinity,
             url: `${this._url}/${route}`,
-            headers: { 
-              'Accept': 'application/json', 
-              'X-CoinAPI-Key': this._keyAPI
+            params: { 
+                'Accept': 'application/json', 
+                'X-CoinAPI-Key': this._keyAPI
             }
         };
     }
 
-    async request(callback) {
-        const route = `ohlcv/${this.exchange}_SPOT_${this.coin}/history?period_id=${this.period}&time_start=2023-01-01T00:00:00`;
+    async request(callback) {        
+        const route = `ohlcv/${this.exchange}_SPOT_${this.coin}/history?period_id=${this.period}&time_start=${time_start}`;
         await axios(this._requestConfig(route))
         .then(async (response) => {
             await callback(response);
@@ -54,6 +54,34 @@ class Controller {
             row.save()
             console.log("Created " + row.id + " ID");
         });
+    }
+
+    async readAll() {
+        const data = await CoinTableModel.findAll();
+        if (data != undefined){
+            return JSON.stringify(data, null, 2);
+        };
+        return false;
+    }
+
+    async getLastObj(){
+        const id = await CoinTableModel.count();
+        if (id == undefined) {
+            return false;
+        };
+        const obj = await CoinTableModel.findByPk(id);
+        if (obj == undefined) {
+            return false;
+        };
+        return obj.toJSON();
+    }
+
+    async getCount(){
+        const count = await CoinTableModel.count();
+        if (count == undefined){
+            return false;
+        };
+        return count;
     }
 }
 
