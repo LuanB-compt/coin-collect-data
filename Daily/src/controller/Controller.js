@@ -27,7 +27,7 @@ class Controller {
         };
     }
 
-    async request(callback) {        
+    async request(callback, time_start = '') {        
         const route = `ohlcv/${this.exchange}_SPOT_${this.coin}/history?period_id=${this.period}&time_start=${time_start}`;
         await axios(this._requestConfig(route))
         .then(async (response) => {
@@ -42,7 +42,7 @@ class Controller {
         const data = response.data;
         data.forEach(async period => {
             let row = await CoinTableModel.create({
-                Coin: "SOLBRL",
+                Coin: this.coin,
                 DateStart: period.time_period_start,
                 DateEnd: period.time_period_end,
                 Open: period.price_open,
