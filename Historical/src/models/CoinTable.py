@@ -13,5 +13,5 @@ CoinTableModel = Table(
     Column("Low", Double, nullable=False, autoincrement=False, unique=False),
     Column("Close", Double, nullable=False, autoincrement=False, unique=False),
     Column("Volume", Double, nullable=False, autoincrement=False, unique=False),
-    Column("NumTrades", Integer, nullable=False, autoincrement=False, unique=False)
+    Column("NumTrades", Integer, nullable=True, autoincrement=False, unique=False)
 )
