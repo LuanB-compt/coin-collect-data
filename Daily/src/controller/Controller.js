@@ -8,7 +8,6 @@ class Controller {
     _url = 'https://rest.coinapi.io/v1';
     _keyAPI = 'D23A0AE8-C582-485F-BB2B-CBAD4710FE27';
     _route = 'ohlcv/{EXCHANGE}_SPOT_{SYMBOL}/history?period_id={PERIOD}&time_start={TIME_START}';
-    _date = new Date();
 
     constructor (symbol = "SOL_BRL", exchange = "BINANCE", period = "15MIN") {
         sequelize.sync();
@@ -23,7 +22,7 @@ class Controller {
             method: 'get',
             maxBodyLength: 'Infinity',
             url: `${this._url}/${this._route}`,
-            params: { 
+            headers: { 
                 'Accept': 'application/json', 
                 'X-CoinAPI-Key': this._keyAPI
             }
@@ -31,12 +30,14 @@ class Controller {
     }
 
     _updateNowTime() {
-        this.nowTime = this._date.toJSON().slice(0,-5);
+        this.nowTime = new Date();
+        this.nowTime.setMinutes(this.nowTime.getMinutes() - 15)
+        this.nowTime = this.nowTime.toJSON().slice(0,-5);
     }
 
     _updateConfigRequest() {
         this._updateNowTime();
-        this.route = this._route
+        this._route = this._route
             .replace('{EXCHANGE}', this.exchange)
             .replace('{SYMBOL}', this.symbol)
             .replace('{PERIOD}', this.period)
@@ -58,9 +59,9 @@ class Controller {
         const data = response.data;
         data.forEach(async period => {
             let row = await CoinTableModel.create({
-                Coin: this.symbol,
-                DateStart: period.time_period_start,
-                DateEnd: period.time_period_end,
+                Symbol: "SOLBRL",
+                OpenDateTime: period.time_period_start,
+                CloseDateTime: period.time_period_end,
                 Open: period.price_open,
                 High: period.price_high,
                 Low: period.price_low,
