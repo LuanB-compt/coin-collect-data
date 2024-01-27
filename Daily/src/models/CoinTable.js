@@ -5,6 +5,10 @@ const { sequelize } = require('../database/SQLite');
 class CoinTableModel extends Model {}
 
 CoinTableModel.init({
+    index: {
+        type: DataTypes.INTEGER,
+        primaryKey: true
+    },
     Symbol: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -60,6 +64,6 @@ CoinTableModel.init({
         unique: false,
         defaultValue: -1
     }
-}, {sequelize, modelName: 'CoinTable', timestamps: true});
+}, {sequelize, modelName: 'CoinTable', tableName:'CoinTable', timestamps: false});
 
 module.exports = {CoinTableModel};
