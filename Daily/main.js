@@ -1,38 +1,25 @@
 const { Controller } = require("./src/controller/Controller");
-const { processerDateString } = require("./src/utils/helpers");
 
-async function main() {
-    const controller = new Controller();
+async function main(controller) {
     const count = await controller.getCount();
     if (typeof count === "number"){
         if (count == 0){
-            controller.request(controller.createCallback, '2023-01-01T00:00:00');
-            return false;
+            return true;
         } else {
-            const lastObj = await controller.getLastObj();
-            if(lastObj == undefined) return true;
-            else {
-                var lastDate = JSON.stringify(lastObj.DateEnd);
-                lastDate = processerDateString(lastDate);
-                if (lastDate == '2024-01-20T00:00:00') return true;
-                else {
-                    controller.request(controller.createCallback, lastDate);
-                    return false;
-                }
-            }
+            controller.request(controller.createCallback);
         }
     } else {return true};
 }
 
-const start = async function() {
+const start = async function(controller) {
     var finish = false;
     while (finish == false) {
-        finish = await main();
-        console.log(finish);
-        setTimeout(() => {}, 5000);
+        finish = await main(controller);
+        setTimeout(() => {}, 900000);
     };
 }
 
 if (require.main === module) {
-    start();
+    const controller = new Controller();
+    start(controller);
 }
