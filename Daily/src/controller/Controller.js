@@ -7,29 +7,46 @@ const axios = require('axios');
 class Controller {
     _url = 'https://rest.coinapi.io/v1';
     _keyAPI = 'D23A0AE8-C582-485F-BB2B-CBAD4710FE27';
+    _route = 'ohlcv/{EXCHANGE}_SPOT_{SYMBOL}/history?period_id={PERIOD}&time_start={TIME_START}';
 
-    constructor (coin = "SOL_BRL", exchange = "BINANCE", period = "15MIN") {
+    constructor (symbol = "SOL_BRL", exchange = "BINANCE", period = "15MIN") {
         sequelize.sync();
-        this.coin = coin;
+        this.symbol = symbol;
         this.exchange = exchange;
         this.period = period;
+        this._updateNowTime();
     }
 
-    _requestConfig(route = '', method = 'get') {
+    _createRequestConfig() {
         return {
-            method: method,
-            maxBodyLength: Infinity,
-            url: `${this._url}/${route}`,
-            params: { 
+            method: 'get',
+            maxBodyLength: 'Infinity',
+            url: `${this._url}/${this._route}`,
+            headers: { 
                 'Accept': 'application/json', 
                 'X-CoinAPI-Key': this._keyAPI
             }
         };
     }
 
-    async request(callback, time_start = '') {        
-        const route = `ohlcv/${this.exchange}_SPOT_${this.coin}/history?period_id=${this.period}&time_start=${time_start}`;
-        await axios(this._requestConfig(route))
+    _updateNowTime() {
+        this.nowTime = new Date();
+        this.nowTime.setMinutes(this.nowTime.getMinutes() - 15)
+        this.nowTime = this.nowTime.toJSON().slice(0,-5);
+    }
+
+    _updateConfigRequest() {
+        this._updateNowTime();
+        this._route = this._route
+            .replace('{EXCHANGE}', this.exchange)
+            .replace('{SYMBOL}', this.symbol)
+            .replace('{PERIOD}', this.period)
+            .replace('{TIME_START}', this.nowTime);
+    }
+
+    async request(callback) {
+        this._updateConfigRequest();
+        await axios(this._createRequestConfig())
         .then(async (response) => {
             await callback(response);
         })
@@ -42,9 +59,9 @@ class Controller {
         const data = response.data;
         data.forEach(async period => {
             let row = await CoinTableModel.create({
-                Coin: this.coin,
-                DateStart: period.time_period_start,
-                DateEnd: period.time_period_end,
+                Symbol: "SOLBRL",
+                OpenDateTime: period.time_period_start,
+                CloseDateTime: period.time_period_end,
                 Open: period.price_open,
                 High: period.price_high,
                 Low: period.price_low,
