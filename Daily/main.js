@@ -1,5 +1,5 @@
-const { Controller } = require("./controller/Controller");
-const { processerDateString } = require("./utils/helpers");
+const { Controller } = require("./src/controller/Controller");
+const { processerDateString } = require("./src/utils/helpers");
 
 async function main() {
     const controller = new Controller();
