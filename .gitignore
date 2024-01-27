@@ -1,6 +1,8 @@
 # Project Stuff
 env*
 
+# Python
+__pycache__/
 
 # Logs
 logs
