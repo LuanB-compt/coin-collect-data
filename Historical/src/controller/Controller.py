@@ -29,7 +29,7 @@ class Controller():
         self.__processingOHLC()
 
     def saveOHLC(self) -> None:
-        self.data.to_sql(name=CoinTableModel.name, con=db, if_exists="replace")
+        self.data.to_sql(name=CoinTableModel.name, con=db, if_exists="append")
 
     def __processingOHLC(self) -> None:
         self.data.columns = [
@@ -43,6 +43,7 @@ class Controller():
             'is_best_match'
         ]
         self.data['OpenDateTime'] = [dt.datetime.fromtimestamp(x/1000) for x in self.data.OpenDateTime]
+        self.data['CloseDateTime'] = [dt.datetime.fromtimestamp(x/1000) for x in self.data.CloseDateTime]
         self.data['Symbol'] = self.symbol
         self.data = self.data[
             ['Symbol', 'OpenDateTime', 'CloseDateTime', 'Open', 'High', 'Low', 'Close', 'Volume', 'NumTrades']
