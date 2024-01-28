@@ -5,6 +5,7 @@ metaObj = MetaData()
 CoinTableModel = Table(
     "CoinTable",
     metaObj,
+    Column("index", Integer, primary_key=True),
     Column("Symbol", String, nullable=False, autoincrement=False, unique=False),
     Column("OpenDateTime", DateTime, nullable=False, autoincrement=False, unique=False),
     Column("CloseDateTime", DateTime, nullable=False, autoincrement=False, unique=False),
