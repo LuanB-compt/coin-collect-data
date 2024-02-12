@@ -7,3 +7,5 @@ install-historical:
 	python3.11 -m venv ./Historical/.env
 	./Historical/.env/bin/pip install -r ./Historical/requirements.txt
 
+install-daily:
+	@echo "Not Implemented"
