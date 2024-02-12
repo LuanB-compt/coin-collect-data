@@ -1,0 +1,2 @@
+build:
+	mkdir ./out
