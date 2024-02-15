@@ -64,6 +64,6 @@ CoinTableModel.init({
         unique: false,
         defaultValue: -1
     }
-}, {sequelize, modelName: 'CoinTable', tableName:'CoinTable', timestamps: false});
+}, {sequelize, modelName: 'CoinTableDaily', tableName:'CoinTableDaily', timestamps: false});
 
 module.exports = {CoinTableModel};
