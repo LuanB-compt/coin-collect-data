@@ -1,9 +1,17 @@
 const { Sequelize } = require('sequelize');
 
-function getDatabaseInstance(path = '../out/db.sqlite') {
-    return new Sequelize({dialect: 'sqlite', storage: path});
+class Database {
+    sequelize = null;
+    path = ''
+
+    constructor(path = '../out/db.sqlite'){
+        this.path = path;
+        this.sequelize = getDatabaseInstance(path);
+    }
+
+    getDatabaseInstance() {
+        return new Sequelize({dialect: 'sqlite', storage: this.path});
+    }
 }
 
-const sequelize = getDatabaseInstance();
-
-module.exports = {sequelize};
+module.exports = new Database();
