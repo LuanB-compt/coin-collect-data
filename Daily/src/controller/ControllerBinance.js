@@ -1,22 +1,40 @@
 const Binance = require('node-binance-api')
-const binance = new Binance().options({
-    APIKEY: `NVojuzwfetkXRMgKFTJcBJxCDmAws6J3DqRirsPnKIj0HCDctMMSXFBJWEAapA9o`,
-    APISECRET: `HlQvCWkQ5rkYkLUWxq0MTLOfNKQtVwrjmwmPVv0FqZuzs7UFXpa9fPHWyx4QF2az`
-})
+
 
 class ControllerBinance {
-    constructor(){
-        
+    symbol = '';
+    interval = '';
+    binance = new Binance();
+
+    constructor(symbol = '', interval = '15m'){
+        this.symbol = symbol;
+        this.interval = interval
     }
 
-    async test() {
-        binance.bookTickers('BNBBTC', (error, ticker) => {
-            console.info("bookTickers", ticker);
+    async request() {
+        this.binance.websockets.candlesticks([this.symbol], this.interval, (candlesticks) => {
+            let { e:eventType, E:eventTime, s:symbol, k:ticks } = candlesticks;
+            let { o:open, h:high, l:low, c:close, v:volume, n:trades, i:interval, x:isFinal, q:quoteVolume, V:buyVolume, Q:quoteBuyVolume } = ticks;
+            const result = {
+                CloseTime: new Date(eventTime).toJSON(),
+                Open: open,
+                High: high,
+                Low: low,
+                Close: Close,
+                Volume: volume,
+                NumTrades: trades,
+                Symbol: this.symbol
+            }
+            let endpoints = this.binance.websockets.subscriptions();
+            for ( let endpoint in endpoints ) {
+                this.binance.websockets.terminate(endpoint);
+            };
+            return result;
         });
     }
 }
 
-const c = new ControllerBinance();
-c.test()
+const c = new ControllerBinance("SOLUSDT");
+c.test();
 
 module.exports = {ControllerBinance}
