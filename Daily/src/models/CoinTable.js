@@ -17,7 +17,7 @@ CoinTableModel.init({
     },
     OpenDateTime: {
         type: DataTypes.DATE,
-        allowNull: false,
+        allowNull: true,
         autoIncrement: false,
         unique: false
     },
