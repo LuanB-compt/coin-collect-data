@@ -5,7 +5,7 @@ from src.database.SQLite import db
 from src.models.CoinTable import metaObj, CoinTableModel
 
 class Controller():
-    def __init__(self, symbol: str, client: Client, interval: str = '15m', pastDays: int = 365):
+    def __init__(self, symbol: str, client: Client, interval: str = '15m', pastDays: int = 730):
         metaObj.create_all(bind=db)
         self.symbol: str = symbol
         self.client: Client = client
